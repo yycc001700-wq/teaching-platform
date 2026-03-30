@@ -1,0 +1,9 @@
+# Force Nixpacks Node build and explicit commands
+[variables]
+NIXPACKS_NODE_VERSION = "18"
+
+[phases.install]
+cmds = ["npm install --production"]
+
+[start]
+cmd = "node server.js"
