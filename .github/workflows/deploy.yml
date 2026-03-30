@@ -1,36 +1,32 @@
-name: Build & Push AMD64 Docker Image
+name: Deploy to Zeabur (AMD64)
 
 on:
   push:
     branches: [main]
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: yycc001700-wq/teaching-platform
-
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
+  deploy:
+    runs-on: ubuntu-latest  # AMD64
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '18'
 
-      - name: Build and push Docker image (linux/amd64)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/amd64
-          push: true
-          tags: ghcr.io/yycc001700-wq/teaching-platform:latest
+      - name: Install dependencies
+        run: npm install --production
+
+      - name: Deploy to Zeabur
+        env:
+          ZEABUR_TOKEN: ${{ secrets.ZEABUR_TOKEN }}
+        run: |
+          npm install -g zeabur@latest
+          zeabur auth login --token "$ZEABUR_TOKEN"
+          zeabur deploy \
+            --project-id "69c419c282fb34707a9ee8a0" \
+            --name "teaching-platform" \
+            -i=false
