@@ -1,0 +1,39 @@
+name: Build AMD64 & Deploy to Zeabur
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # GitHub 的 AMD64 機器
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (AMD64)
+        run: npm install --production
+
+      - name: Test server starts
+        run: |
+          timeout 10 node server.js &
+          sleep 5
+          curl -f http://localhost:3000/ || exit 1
+          kill %1 2>/dev/null || true
+
+      - name: Deploy to Zeabur via CLI
+        env:
+          ZEABUR_TOKEN: ${{ secrets.ZEABUR_TOKEN }}
+        run: |
+          npm install -g zeabur@latest
+          zeabur auth login --token "$ZEABUR_TOKEN"
+          zeabur deploy \
+            --project-id "69c419c282fb34707a9ee8a0" \
+            --name "teaching-platform" \
+            -i=false
