@@ -1,0 +1,486 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+  background: linear-gradient(135deg, #1e1b4b 0%, #1e40af 100%);
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #1e1b4b;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #1e40af;
+  margin-bottom: 16px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: white;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: white;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #4f46e5;
+  color: #4f46e5;
+}
+
+.btn-lg {
+  padding: 20px 40px;
+  font-size: 1.3rem;
+  border-radius: 16px;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+  color: #1e293b;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+label {
+  font-weight: bold;
+  color: #475569;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.alert-error { background: #fee2e2; color: #dc2626; }
+.alert-success { background: #d1fae5; color: #059669; }
+.alert-info { background: #dbeafe; color: #1d4ed8; }
+
+/* 導覽列 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.navbar .logo { font-size: 1.3rem; font-weight: bold; }
+.navbar .nav-user { font-size: 0.9rem; opacity: 0.8; }
+
+/* 問題卡片 */
+.question-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.question-text {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #1e1b4b;
+  margin: 24px 0;
+  letter-spacing: 2px;
+}
+
+/* 計時條 */
+.timer-bar-wrap {
+  background: #e2e8f0;
+  border-radius: 99px;
+  height: 18px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #10b981, #f59e0b);
+  transition: width 0.2s linear, background 0.5s;
+}
+
+.timer-bar.warning {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+.timer-label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+/* 答案輸入 */
+.answer-inputs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.answer-inputs input {
+  width: 140px;
+  font-size: 2rem;
+  text-align: center;
+  padding: 12px;
+  margin: 0;
+}
+
+.answer-label {
+  font-size: 1.2rem;
+  color: #64748b;
+  font-weight: bold;
+}
+
+/* 排行榜 */
+.leaderboard {
+  list-style: none;
+}
+
+.leaderboard li {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  font-size: 1.05rem;
+  transition: background 0.2s;
+}
+
+.leaderboard li:hover { background: #f1f5f9; }
+
+.rank-badge {
+  font-size: 1.4rem;
+  width: 36px;
+  text-align: center;
+  margin-right: 12px;
+}
+
+.player-name {
+  flex: 1;
+  font-weight: bold;
+}
+
+.player-score {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+/* 幸運特效 */
+.lucky-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.lucky-text {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #f59e0b;
+  text-shadow: 0 0 20px #fbbf24;
+  animation: luckyPop 1.5s ease-out forwards;
+  background: rgba(0,0,0,0.7);
+  padding: 20px 40px;
+  border-radius: 20px;
+}
+
+@keyframes luckyPop {
+  0% { transform: scale(0.3); opacity: 0; }
+  30% { transform: scale(1.2); opacity: 1; }
+  70% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+.star {
+  position: fixed;
+  font-size: 2rem;
+  pointer-events: none;
+  z-index: 9998;
+  animation: starFly 1.5s ease-out forwards;
+}
+
+@keyframes starFly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* 答案結果提示 */
+.result-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 32px;
+  border-radius: 16px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  z-index: 1000;
+  animation: toastIn 0.3s ease;
+}
+
+.result-toast.correct { background: #059669; }
+.result-toast.wrong { background: #dc2626; }
+
+@keyframes toastIn {
+  from { top: -50px; opacity: 0; }
+  to { top: 20px; opacity: 1; }
+}
+
+/* 房間代碼 */
+.room-code {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 8px;
+  color: #4f46e5;
+  text-align: center;
+  padding: 16px;
+  background: #ede9fe;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+/* 玩家列表 */
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.player-chip {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.player-chip.correct { border-color: #10b981; background: #d1fae5; }
+.player-chip.wrong { border-color: #ef4444; background: #fee2e2; }
+.player-chip.waiting { border-color: #f59e0b; background: #fef3c7; }
+
+/* 分數顯示 */
+.score-display {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4f46e5;
+  text-align: center;
+}
+
+/* 頁籤 */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #94a3b8;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  color: #4f46e5;
+  border-bottom-color: #4f46e5;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* 歷史成績 */
+.history-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #f8fafc;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.history-item:hover { background: #e2e8f0; }
+
+/* 狀態標示 */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.badge-blue { background: #dbeafe; color: #1d4ed8; }
+.badge-green { background: #d1fae5; color: #059669; }
+.badge-yellow { background: #fef3c7; color: #d97706; }
+
+/* 等待頁面 */
+.waiting-animation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+}
+
+.waiting-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #4f46e5;
+  animation: dotBounce 1.2s infinite;
+}
+
+.waiting-dot:nth-child(2) { animation-delay: 0.2s; }
+.waiting-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+/* 響應式 */
+@media (max-width: 600px) {
+  .question-text { font-size: 2.8rem; }
+  .card { padding: 20px; }
+  .btn-lg { font-size: 1.1rem; padding: 16px 24px; }
+  .room-code { font-size: 2rem; letter-spacing: 4px; }
+  .answer-inputs input { width: 110px; font-size: 1.6rem; }
+}
+
+/* 首頁特效 */
+.hero-title {
+  font-size: 2.5rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.hero-btn .btn {
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  padding: 22px 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+/* 全寬 flex 工具 */
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.gap-8 { gap: 8px; }
+.gap-16 { gap: 16px; }
+.mt-12 { margin-top: 12px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.text-center { text-align: center; }
+.text-gray { color: #64748b; }
+.text-sm { font-size: 0.9rem; }

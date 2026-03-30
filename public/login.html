@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎓 老師登入</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .login-card { max-width: 420px; width: 100%; }
+    .logo { font-size: 3rem; text-align: center; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="login-card card">
+    <div class="logo">🎓</div>
+    <h1 class="text-center mb-16" style="font-size: 1.8rem;">老師登入</h1>
+
+    <div id="alertBox"></div>
+
+    <form id="loginForm">
+      <label>帳號</label>
+      <input type="text" id="username" placeholder="請輸入帳號" autocomplete="username">
+
+      <label>密碼</label>
+      <input type="password" id="password" placeholder="請輸入密碼" autocomplete="current-password">
+
+      <button type="submit" class="btn btn-primary btn-lg mt-12">登入</button>
+    </form>
+
+    <div class="text-center mt-12">
+      <a href="index.html" style="color: #4f46e5; text-decoration: none;">← 返回首頁</a>
+    </div>
+  </div>
+
+  <script>
+    // 若已登入，直接跳轉
+    if (localStorage.getItem('teacher_token')) {
+      window.location.href = 'teacher.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const alertBox = document.getElementById('alertBox');
+
+      if (!username || !password) {
+        alertBox.innerHTML = '<div class="alert alert-error">請填寫帳號和密碼</div>';
+        return;
+      }
+
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = '登入中...';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          alertBox.innerHTML = `<div class="alert alert-error">${data.error || '登入失敗'}</div>`;
+          btn.disabled = false;
+          btn.textContent = '登入';
+          return;
+        }
+
+        localStorage.setItem('teacher_token', data.token);
+        localStorage.setItem('teacher_info', JSON.stringify(data.teacher));
+        alertBox.innerHTML = '<div class="alert alert-success">登入成功！正在跳轉...</div>';
+        setTimeout(() => { window.location.href = 'teacher.html'; }, 800);
+      } catch (err) {
+        alertBox.innerHTML = '<div class="alert alert-error">網路錯誤，請稍後再試</div>';
+        btn.disabled = false;
+        btn.textContent = '登入';
+      }
+    });
+  </script>
+</body>
+</html>

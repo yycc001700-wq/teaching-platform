@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 學生遊戲</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">🎮 除法對戰</div>
+    <div id="navStatus" style="color:rgba(255,255,255,0.7);font-size:0.9rem;"></div>
+  </nav>
+
+  <div class="container" style="padding-top:24px;">
+
+    <!-- 加入頁面 -->
+    <div class="card" id="joinCard">
+      <h2>加入遊戲</h2>
+      <div id="joinAlert"></div>
+      <form id="joinForm">
+        <label>房間代碼（6碼）</label>
+        <input type="text" id="roomCodeInput" placeholder="例如：ABC123" maxlength="6" style="text-transform:uppercase;letter-spacing:4px;font-size:1.5rem;text-align:center;">
+        <label>你的名字</label>
+        <input type="text" id="nameInput" placeholder="輸入你的名字" maxlength="10">
+        <button type="submit" class="btn btn-primary btn-lg mt-12">🚀 加入遊戲</button>
+      </form>
+      <div class="text-center mt-12">
+        <a href="index.html" style="color:#4f46e5;text-decoration:none;">← 返回首頁</a>
+      </div>
+    </div>
+
+    <!-- 等待開始 -->
+    <div class="card text-center" id="waitCard" style="display:none;">
+      <h2>⏳ 等待老師開始</h2>
+      <p class="text-gray" style="margin:16px 0;">你已成功加入！請等待老師按下開始遊戲</p>
+      <div class="waiting-animation">
+        <div class="waiting-dot"></div>
+        <div class="waiting-dot"></div>
+        <div class="waiting-dot"></div>
+      </div>
+      <div style="margin-top:20px;">
+        <p class="text-gray text-sm">房間代碼</p>
+        <div class="room-code" id="myRoomCode"></div>
+        <p style="font-size:1.1rem;margin-top:8px;">👋 你好，<strong id="myName"></strong>！</p>
+      </div>
+    </div>
+
+    <!-- 倒數計時 -->
+    <div class="card text-center" id="countdownCard" style="display:none;">
+      <h2>遊戲即將開始！</h2>
+      <div style="font-size:6rem;font-weight:bold;color:#4f46e5;margin:20px 0;" id="countdownNum">3</div>
+      <p class="text-gray">準備好了嗎？</p>
+    </div>
+
+    <!-- 遊戲進行 -->
+    <div id="gameCard" style="display:none;">
+      <!-- 進度 + 分數 -->
+      <div class="flex-between mb-8" style="color:white;">
+        <span id="questionProgressLabel" style="font-size:1.1rem;font-weight:bold;">第 1 / 15 題</span>
+        <span style="font-size:1.1rem;"><span id="myScore">0</span> 分</span>
+      </div>
+
+      <!-- 計時條 -->
+      <div class="timer-bar-wrap">
+        <div class="timer-bar" id="timerBar" style="width:100%;"></div>
+      </div>
+      <div class="timer-label text-center" id="timerLabel">15</div>
+
+      <!-- 題目 -->
+      <div class="card question-card">
+        <p class="text-gray">計算以下除法（填入商和餘數）</p>
+        <div class="question-text" id="questionText">? ÷ ? = ?</div>
+
+        <div id="answerArea">
+          <div class="answer-inputs">
+            <div>
+              <div class="answer-label">商</div>
+              <input type="number" id="quotientInput" placeholder="商" min="0" inputmode="numeric">
+            </div>
+            <div style="font-size:2rem;padding-top:20px;">⋯⋯</div>
+            <div>
+              <div class="answer-label">餘數</div>
+              <input type="number" id="remainderInput" placeholder="餘數" min="0" inputmode="numeric">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg" id="submitBtn" onclick="submitAnswer()">✅ 提交答案</button>
+        </div>
+
+        <div id="waitingNextArea" style="display:none;">
+          <div style="font-size:2rem;margin:16px 0;" id="resultEmoji">⏳</div>
+          <p id="resultMsg" class="text-gray"></p>
+        </div>
+      </div>
+
+      <!-- 排行榜 -->
+      <div class="card">
+        <h3 style="margin-bottom:12px;color:#475569;">🏆 即時排行</h3>
+        <ol class="leaderboard" id="liveLeaderboard"></ol>
+      </div>
+    </div>
+
+    <!-- 遊戲結束 -->
+    <div class="card" id="endCard" style="display:none;">
+      <h2 class="text-center">🎉 遊戲結束！</h2>
+      <div class="text-center" style="margin:20px 0;">
+        <p class="text-gray">你的最終成績</p>
+        <div class="score-display" id="finalScore">0</div>
+        <p class="text-gray" style="margin-top:8px;" id="finalStats"></p>
+      </div>
+      <ol class="leaderboard" id="endLeaderboard" style="margin:20px 0;"></ol>
+      <button class="btn btn-primary btn-lg" onclick="window.location.href='index.html'">🏠 返回首頁</button>
+    </div>
+  </div>
+
+  <!-- 幸運特效層 -->
+  <div id="luckyOverlay" class="lucky-overlay" style="display:none;">
+    <div class="lucky-text">⭐ 幸運雙倍！</div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="student.js"></script>
+</body>
+</html>
